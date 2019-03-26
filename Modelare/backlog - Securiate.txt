@@ -1,0 +1,7 @@
+
+Product backlog
+
+1.Sistemul de login
+2.Validare prin mail pentru inregistrarea utilizatorilor temporari (studenti).
+3.Acordarea de drepturi si tipuri de conturi (administrator , secretar, student, temporar, permanent)
+4.Integrarea protocoalelor de securitate 
