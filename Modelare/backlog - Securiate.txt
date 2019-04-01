@@ -1,7 +1,24 @@
+Product backlog -Securitate
+Prioritate:1,... 1-cea mai mare prioritate
+1.Arhitectura
+  1.Product backlogul
+  2.Diagrama UML
+  3.Diagrama c4
+2.Documentatia despre tehnologiile necesare.
 
-Product backlog
+3.Module comune login/register
+ 1.criptarea parolelor folosind salted hashes
+ 2.verificarea validitatii datelor de logare(email-uri valide ce apartin de info.uaic.ro ce contin doar caractere alfanumerice,@,.)
+ 
+4.Login specific
+ 1.verificarea datelor de logare introduse folosind datele de logare din baza de date a aplicatiei(se compara id-urile si hashurile parolelor).
 
-1.Sistemul de login
-2.Validare prin mail pentru inregistrarea utilizatorilor temporari (studenti).
-3.Acordarea de drepturi si tipuri de conturi (administrator , secretar, student, temporar, permanent)
-4.Integrarea protocoalelor de securitate 
+5.Register specific
+  1.verificarea daca emailul cu care utilizatorul doreste sa is creeze cont nu a fost folosit deja.
+  2.generarea unui hash random si a unei adrese temporare
+  3.Trimiterea prin email a adresei de confirmare a contului
+  4.Activarea contului prin setarea campului 'activated' din baza de date
+  
+6.Integrarea protocolului de securitate https folosind certificate locale
+
+7.Acordarea de drepturi si tipuri de conturi (administrator , secretar,profesor, student)
