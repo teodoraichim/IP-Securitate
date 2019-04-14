@@ -1,0 +1,61 @@
+
+register(username,mail,parola)//returneaza 1 daca s-a realizat cu succes 0 altfel;afiseaza mesaje de genul:'Mail invalid' sau'Se trimite mail de confirmare'
+{//genereaza salt(
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+)
+//cripteaza parola(folosind functia encrypt()) si saltul generat mai sus
+//verifica daca mail-ul e in format potrivit,daca username-ul este alfanumeric(verifyMail si verifyAlphaNUmeric )
+//verifica daca mai exista un utlizator cu acelasi nume in bd sau daca mail-ul a mai fost folosit
+//daca totul e in regula:
+//-genereaza  cod de autentificare (folosind functia getAuthCode())
+//-se adauga datele in bd(addNewUser(username,mail,salt,parola(cea criptata),codul de autentificare(generat mai sus) ))
+//-trimite mail folosind  sendEmail()
+
+}
+activate(username,auth_code)
+{
+	//verificare username si cod alfanumeric(folosind verifyAlphaNumeric)
+	//checkAuthCode(string usernae,auth_code);
+}
+login(username,parola)
+{
+	//verificare username alfanumeric(folosind verifyAlphaNumeric)
+	//getSalt(string username)
+	//cripteaza parola primita ca parametru folosind salt-ul primit in functia de mai sus(se foloseste encrypt())
+	//verifica daca userul exista:countUsersByUsernamePass(string username,string hashed_pass)
+	//se returneaza 1 daca s-a logat cu succes 0 altfel
+}
+
+bd:
+tabele:
+
+	users
+	username,mail,salt-ul parolei,parola criptata,starea(un flag (1)verificat-(0)neverificat default neverificat(0))
+
+	verification
+	username,code
+
+query:
+	register:
+	countUsersByName(string username):select count(*) from users where username like ..
+
+	countUsersByMail(string mail):select count(*) from users where mail like ..
+
+	addNewUser(string username,mail,salt,parola,authentification-code):
+	insert into users username,mail,salt-ul parolei,parola criptata,0
+	insert into verification username,authentification code
+	
+	verificare mail/activare cont:
+	checkAuthCode(string username,auth_code):
+		sleect count(*) from verification where username like...and code like..
+
+	login:
+	getSalt(string username):select salt from users where username like...
+	
+	countUsersByUsernamePass(string username,string pass)
+	select count(*) from users where ..
+
+
+

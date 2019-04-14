@@ -23,6 +23,12 @@ public class Main {
     /**
      * Helper function used for converting from an array of bytes to a string
      **/
+    public static int countUsersByName(String name){return 0;}
+    public static int countUsersByMail(String mail){return 0;}
+    public static int checkAuthCode(String username,String code){return 1;}
+    public static int countUsersByUsernamePass(String username,String hash){return 1;}
+    public static void addNewUser(String username,String mail,String salt,String hash,String auth){ }
+    public static String getSalt(String username){return "65a5ce4dea98306d4826a7df93b02e4e";}
 
     public static String byteToString(byte[] byteCode) {
         StringBuffer stringCode = new StringBuffer();
@@ -32,6 +38,7 @@ public class Main {
         return stringCode.toString();
 
     }
+
 
     /**
      * Generates an authentification code that will be used for the email verification procedure
@@ -61,7 +68,8 @@ public class Main {
         for (int i = 0; i < plainName.length(); i++) {
             char c = plainName.charAt(i);
             if (c < 0x30 || (c >= 0x3a && c <= 0x40) || (c > 0x5a && c <= 0x60) || c > 0x7a)
-                return false;
+                if(c !='.' && c!='_')
+                    return false;
         }
         return true;
     }
@@ -84,15 +92,11 @@ public class Main {
      * Encrypts a string using the PBKDF2 algorithm
      * Used for encrypting the password given as plain text
      **/
-    public static String encrypt(String plain) {
+    public static String encrypt(String plain, byte[] salt) {
         /**Generating a salt **/
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
         byte[] hashedPassword;
         byte[] err = new byte[1];
         err[0] = 0;
-        //Save the salt
 
         try {
             KeySpec spec = new PBEKeySpec(plain.toCharArray(), salt, 65536, 128);
@@ -156,16 +160,71 @@ public class Main {
             mex.printStackTrace();
         }
     }
+/**Register function.Returns true if registered successfully and false otherwise**/
+    public static boolean register(String username, String mail, String pass) {
+        if (verifyMail(mail))
+            if (verifyAplhaNumeric(username)) {
+                SecureRandom random = new SecureRandom();
+                byte[] salt = new byte[16];
+                random.nextBytes(salt);
+                String hash = encrypt(username, salt);
+                if (countUsersByName(username) != 0) {
+                    System.out.println("Username already taken.");
+                } else {
+                    if (countUsersByMail(mail) != 0) {
+                        System.out.println("Mail was already used.");
+                    } else {
+                        String auth = getAuthCode();
+                        addNewUser(username, mail, byteToString(salt), hash, auth);
+                        sendEmail(mail, auth);
+                        return true;
+                    }
+                }
+            } else
+                System.out.println("Invalid username:must be alphanumeric");
+        else {
+            System.out.println("Invalid email:must be nume.prenume@info.uaic.ro");
 
+        }
+        return false;
+    }
+/**Function that activates an account given a username and the authentification code**/
+    public static boolean activate(String username,String auth_code)
+    {
+        if(checkAuthCode(username,auth_code)==0)
+            return false;
+        else return true;
+    }
+    /**Login function.Returns true if credentials are valid and the login was successful and false otherwise**/
+    public static boolean login(String username,String pass)
+    {
+        if(verifyAplhaNumeric(username))
+        {
+            String salt=getSalt(username);
+
+            String hash=encrypt(pass,salt.getBytes());
+            if(countUsersByUsernamePass(username,hash)!=0)
+                return true;
+        }
+        else
+        {
+            System.out.println("Username must be alphanumeric.");
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
 
-        String result = encrypt("Ihaeasdfads4");
-//        "u�zo��8\u0010\u0004�c_Ŝѷ";
+        String result = encrypt("Ihaeasdfads4", salt);
+//        65a5ce4dea98306d4826a7df93b02e4e
         System.out.println(result);
         String authCode = getAuthCode();
 
         //sendEmail("silviu.mariuta@info.uaic.ro".toString(),authCode);
-        System.out.println(verifyMail("duncan.tree@info.uaic.ro"));
+        //System.out.println(register("sil.viu","silviu.mariuta@info.uaic.ro","12fsa"));
+        System.out.println(login("silviu","23asda"));
     }
 }

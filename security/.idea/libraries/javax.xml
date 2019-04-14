@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="javax">
+    <CLASSES>
+      <root url="file://$USER_HOME$/jdk/javax.mail" />
+      <root url="file://$USER_HOME$/jdk/jaf-1.1.1" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$USER_HOME$/jdk/jaf-1.1.1/docs/javadocs" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://$USER_HOME$/jdk/jaf-1.1.1/demo" />
+    </SOURCES>
+    <jarDirectory url="file://$USER_HOME$/jdk/jaf-1.1.1" recursive="false" />
+  </library>
+</component>
