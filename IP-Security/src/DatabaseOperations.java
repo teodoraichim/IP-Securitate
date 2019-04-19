@@ -1,28 +1,28 @@
+
 public class DatabaseOperations {
-    public void addName(String nume){
-
-    }
-    public void addPassword(String password){
-
-    }
-    public void addPermission(int permission){
 
 
+    public int countUsersByName(String name) {
+        return 0;
     }
-    public void modifyName(String nume, String newNume){
 
+    public String getSalt(String username) {
+        return "65a5ce4dea98306d4826a7df93b02e4e";
     }
-    public void modifyPassword(String nume, String password){
 
+    public int countUsersByMail(String mail) {
+        return 0;
     }
-    public void modifyPermission(String nume,int permission){
 
+    public int countUsersByUsernamePass(String mail, String hash) {
+        return 0;
+    }
 
+    public void addNewUser(String username, String mail, String salt, String hash, String auth) {
     }
-    public boolean verifyName(String name){
-        return true;
+
+    public int checkAuthCode(String username, String code) {
+        return 1;
     }
-    public boolean verifyPassword(String password){
-        return true;
-    }
+
 }
