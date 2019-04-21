@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="sqlite-jdbc-master">
+    <CLASSES>
+      <root url="file://$USER_HOME$/jdk/sqlite-jdbc-master" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/jdk/sqlite-jdbc-master/demo" />
+      <root url="file://$USER_HOME$/jdk/sqlite-jdbc-master/src/main/java" />
+      <root url="file://$USER_HOME$/jdk/sqlite-jdbc-master/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

@@ -8,7 +8,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 public class HelpFunctions {
-    public String getAuthCode() {
+    public String generateAuthCode() {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             SecureRandom random = new SecureRandom();
@@ -30,7 +30,6 @@ public class HelpFunctions {
         return stringCode.toString();
     }
     public  String encrypt(String password, byte[] salt) {
-        /** Generating a salt **/
         byte[] hashedPassword;
         byte[] err = new byte[1];
         err[0] = 0;

@@ -12,8 +12,8 @@ class HFTestGetAuthCode {
 	void test() {
 		HelpFunctions help=new HelpFunctions();
 		
-		String output=help.getAuthCode();//genereaza un cod random 
-		String output2=help.getAuthCode();//genereaza un cod random 
+		String output=help.generateAuthCode();//genereaza un cod random
+		String output2=help.generateAuthCode();//genereaza un cod random
 		System.out.println(output);
 		assertEquals(output,output2);//this should fail to be true
 	}

@@ -12,6 +12,7 @@ class LTestLogin {
 	void test() {
 		Login test= new Login();
 		assertEquals(test.login("cristian.gatu", "BicpaiEa12"),true);
+
 	}
 
 }
