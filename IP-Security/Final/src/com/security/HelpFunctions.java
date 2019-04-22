@@ -29,6 +29,17 @@ public class HelpFunctions {
         }
         return stringCode.toString();
     }
+    public String generateRandomString(int length) {
+        String randomString = "";
+
+        final char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890".toCharArray();
+        final SecureRandom random = new SecureRandom();
+        for (int i = 0; i < length; i++) {
+            randomString = randomString + chars[random.nextInt(chars.length)];
+        }
+
+        return randomString;
+    }
     public  String encrypt(String password, byte[] salt) {
         byte[] hashedPassword;
         byte[] err = new byte[1];

@@ -1,5 +1,7 @@
 package com.security;
 
+import com.database.SQL_func;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -17,7 +19,7 @@ public class Register {
     private Verify verify = new Verify();
     private HelpFunctions funct = new HelpFunctions();
 
-    private SQL_func db = new SQL_func();
+    private SQL_func db = new SQL_func("/home/silviu/JavaProjects/BD_Gestiunea");
 
 //    public String generateAuthCode() {
 //        try {
@@ -40,8 +42,11 @@ public class Register {
                 if (verify.verifyAplhaNumeric(username)) {
                     SecureRandom random = new SecureRandom();
                     byte[] salt = new byte[16];
-                    random.nextBytes(salt);
-                    String hash = funct.encrypt(username, salt);
+                    String salt_string;
+                    salt_string=funct.generateRandomString(16);
+                    System.out.println("salt register:"+salt_string+":"+salt_string.length());
+                    salt=salt_string.getBytes();
+                    String hash = funct.encrypt(pass, salt);
                     if (db.countUsersByName(username) != 0) {
                         System.out.println("Username already taken.");
                     } else {
@@ -49,8 +54,8 @@ public class Register {
                             System.out.println("Mail was already used.");
                         } else {
                             String auth = funct.generateAuthCode();
-                            db.addNewUser(String.valueOf(random.nextInt(100000)),username, mail,hash,funct.byteToString(salt),"","student",auth);
-                            sendEmail(mail, auth);
+                            db.addNewUser(username, mail,hash,salt_string,auth);
+                            //sendEmail(mail, auth);
                             return true;
                         }
                     }
