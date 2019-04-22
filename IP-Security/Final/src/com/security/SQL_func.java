@@ -3,10 +3,17 @@ package com.security;
 
 import java.sql.*;
 
+/**
+ * Clasa care contine functii cu operatii pentru baza de date
+ */
 public class SQL_func{
 
-    // Conectarea cu baza de date
+    /**
+     *  Functia care creeaza conexiunea cu baza de date
+     * @return Returneaza conexiunea
+     */
     private Connection connect() {
+
         String url = "jdbc:sqlite:/home/silviu/JavaProjects/BD_Gestiunea";
         Connection conn = null;
         try {
@@ -18,7 +25,10 @@ public class SQL_func{
         return conn;
     }
 
-    //Selectam toate formulele de calcul din baza de date
+    /**
+     * Functia care returneaza formula de calcul pentru toate materiile
+     * @return Returneaza un string cu materii si formule
+     */
     public String selectFormula() {
         String result = "";
         String query = " Select denumire_materie, formula_calcul from materii";
@@ -34,7 +44,11 @@ public class SQL_func{
         return result;
     }
 
-    //Selectam doar o singura formula din baza de date indicata de id-ul materiei
+    /**
+     * Functia care returneaza formula pentru o anumita materie
+     * @param id Parametrul care identifica materia
+     * @return Returneaza un string cu formula materiei
+     */
     public String selectFormula(String id) {
         String result = "";
         String query = " Select formula_calcul from materii where id_materie=";
@@ -50,7 +64,13 @@ public class SQL_func{
         return result;
     }
 
-    //Facem update-ul campului valori_note din baza de date pentru un anumit student la o anumita materie
+    /**
+     * Functia care face update-ul campului valori_note din baza de date pentru un anumit student la o anumita materie
+     * este evitata posibilitatea de SQL injection folosind query precompilat
+     * @param id_s Parametrul care identifica id-ul studentului
+     * @parma id_m Parametrul care identifica id-ul materie
+     * @param note Parametrul care identifica nota ce va fi setata
+     */
     public void updateNote(String id_s, String id_m, String note) {
         String query = "Update materii set valori_note= ? where id_student= ? and id_materie= ?";
         try (Connection conn = this.connect();
@@ -66,7 +86,10 @@ public class SQL_func{
         }
     }
 
-    //Selectam toate notele existente in baza de date
+    /**
+     * Functia care returneaza toate notele din baza de date(asociate cu o materie si un student)
+     * @return Returneaza un string cu studentii, materiile si notele
+     */
     public String selectNote() {
         String result = "";
         String query = "Select id_materie,id_student,valori_note from materii";
@@ -83,6 +106,13 @@ public class SQL_func{
     }
 
     //Selectam notele unui anumit student la o anumita materie
+
+    /**
+     * Functia care returneaza notele unui anumit student la o anumita materie
+     * @param id_s Parametrul care identifica id-ul studentului
+     * @param id_m Parametrul care identifica id-ul materie
+     * @return Returneaza un string cu notele studentului respectiv la materia respectiva
+     */
     public String selectNote(String id_s, String id_m) {
         String result = "";
         String query = "Select valori_note from materii where id_student=" + id_s + " and id_materie=" + id_m;
@@ -96,7 +126,12 @@ public class SQL_func{
         return result;
     }
 
-    //Facem update-ul formulei din tabela materii pe baza id-ul materiei
+    /**
+     * Functia care face update-ul campului formula_calcul din tabela materii pe baza id-ului materiei
+     * este evitata posibilitatea de SQL injection folosind query precompilat
+     * @param id_m Parametrul care identifica id-ul materiei
+     * @param formula Parametrul care identifica noua formula
+     */
     public void updateFormula(String id_m, String formula) {
         String query = "Update materii set formula_calcul = ? where id_materie = ?";
         try (Connection conn = this.connect();
@@ -110,7 +145,15 @@ public class SQL_func{
         }
     }
 
-    //Inseram in tabela materii o intrare noua
+    /**
+     * Functia care insereaza o materie noua in baza de date
+     * este evitata posibilitatea de SQL injection folosind query precompilat
+     * @param id_m Parametrul care identifica id-ul materiei
+     * @param id_s Parametrul care identifica id-ul studentului
+     * @param nume Parametrul care identifica numele materiei
+     * @param note Parametrul care identifica valorile notelor
+     * @param formula Parametrul care identifica formula de calcul
+     */
     public void insertMaterii(String id_m, String id_s, String nume, String note, String formula) {
         String query = "Insert into materii(id_materie,id_student,denumire_materie,valori_note,formula_calcul) VALUES (?,?,?,?,?)";
         try (Connection conn = this.connect();
@@ -126,6 +169,12 @@ public class SQL_func{
         }
     }
 
+    /**
+     *
+     * @param id_m
+     * @param id_p
+     * @return
+     */
     public String selectCatalog(String id_m, String id_p) {
         String result = "";
         String query = "Select s.id_student,s.nume,s.prenume,s.grupa,m.valori_note from studenti s join materii m on s.id_student = m.id_student join profesori p on m.id_materie = p.id_materie where m.id_materie=" + id_m + " and p.id_profesor=" + id_p;
