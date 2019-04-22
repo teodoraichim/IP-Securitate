@@ -55,7 +55,7 @@ public class Register {
                         } else {
                             String auth = funct.generateAuthCode();
                             db.addNewUser(username, mail,hash,salt_string,auth);
-                            //sendEmail(mail, auth);
+                            sendEmail(mail, auth);
                             return true;
                         }
                     }
