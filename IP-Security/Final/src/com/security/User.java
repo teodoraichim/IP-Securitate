@@ -2,7 +2,7 @@ package com.security;
 
 import javax.mail.MessagingException;
 /**
-* Clasa
+* Clasa care concretizeaza user-ul (username,password,mail) cu posibilitate de logare si inregistrare in sistem
 */
 public class User {
     private String username;
