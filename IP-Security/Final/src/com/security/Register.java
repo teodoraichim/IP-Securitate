@@ -15,11 +15,16 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Clasa folosita pentru inregistrarea in sistem a utilizatorilor noi
+ * contine functii de verificare pentru username,parola,email, functii de asociere intre username si valori hash, si functii de trimitere de email
+ * --pattern matching--
+ */
 public class Register {
     private Verify verify = new Verify();
     private HelpFunctions funct = new HelpFunctions();
 
-    private SQL_func db = new SQL_func("/home/silviu/JavaProjects/BD_Gestiunea");
+    private SQL_func db = new SQL_func("BD_Gestiunea");
 
 //    public String generateAuthCode() {
 //        try {

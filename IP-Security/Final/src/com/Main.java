@@ -1,4 +1,4 @@
-package com;
+package com.security;
 
 import com.security.HelpFunctions;
 import com.security.Register;

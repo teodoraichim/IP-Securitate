@@ -6,7 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-
+/**
+* Clasa contine functii ajutatoare pentru criptare: generare de valori hash, folosind un salt si algoritmul PBKDF2
+*/
 public class HelpFunctions {
     /**
      * Functie care returneaza o valoare hash prin utilizrea algoritmului MD5
