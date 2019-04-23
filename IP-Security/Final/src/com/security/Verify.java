@@ -1,8 +1,15 @@
 package com.security;
 import java.util.regex.Pattern;
 
+/**
+ * Clasa care verifica ca unele date introduse de catre client sa respecte un anumit pattern
+ */
 public class Verify {
-
+    /**
+     * Functie care verifica daca un string este alphaNumeric si daca contine " . " sau " _ "
+     * @param plainName Parametrul care identifica stringul ce urmeaza sa fie verificat
+     * @return Returneaza true daca parametrul este format din numere,majuscule,minuscule," . "," _ " , false altfel
+     */
     public boolean verifyAplhaNumeric(String plainName) {
         //check if username is alphanumeric
         for (int i = 0; i < plainName.length(); i++) {
@@ -15,7 +22,9 @@ public class Verify {
     }
 
     /**
-     * Used for verifying if the email address given user input is of the correct format(nume.prenume@info.uaic.ro)
+     * Functie care verifica daca un string respecta formatul (nume.prenume@info.uaic.ro)
+     * @param plainMail Parametrul care identifica stringul ce urmeaza sa fie verificat
+     * @return Returneaza true daca parametrul respecta formatul, false altfel
      **/
     public boolean verifyMail(String plainMail) {
         String emailRegex = "^[a-zA-Z0-9-]+(?:\\." +
