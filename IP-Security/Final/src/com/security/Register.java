@@ -36,6 +36,15 @@ public class Register {
 //        return "0";
 //    }
 
+    /**
+     * Functia verifica ca username-ul, parola si email-ul introduse de catre utilizator sa respecte pattern-ul de logare
+     * @param username Parametrul care reprezinta username-ul plain-text introdus de catre utilizator
+     * @param mail  Parametrul care reprezinta mail-ul plain-text introdus de catre utilizator
+     * @param pass Parametrul care reprezinta parola plain-text introdusa de catre utilizator
+     * @return Returneaza true daca patternul este respectat, false altfel
+     * @throws AddressException
+     * @throws MessagingException
+     */
     public boolean register(String username, String mail, String pass) throws AddressException, MessagingException {
         if (username == null || mail == null || pass == null || username.isEmpty() || mail.isEmpty() || pass.isEmpty()) return false;
             if (verify.verifyMail(mail))
@@ -68,6 +77,12 @@ public class Register {
         return false;
     }
 
+    /**
+     * Functie care verifica in baza de date daca unui username ii este asociata o functie hash
+     * @param username Parametrul care reprezinta username-ul introdus de care utilizator
+     * @param auth_code Parametrul care reprezinta codificarea hash pentru acel username
+     * @return
+     */
     public boolean activate(String username, String auth_code) {
         if (db.checkAuthCode(username, auth_code) == 0)
             return false;
@@ -75,6 +90,13 @@ public class Register {
         return true;
     }
 
+    /**
+     * Functie care trimite utilizatorului un email de verificare ca urmare a inregistratii in aplicatie
+     * @param to Parametrul care reprezinta destinatarul email-ului
+     * @param code Parametrul care reprezinta codul de activare al contului
+     * @throws AddressException
+     * @throws javax.mail.MessagingException
+     */
     public void sendEmail(String to, String code) throws AddressException, javax.mail.MessagingException {
         String from = "fiicatalog.verify@gmail.com";
         String pass = "1rtU7AIC";
@@ -89,7 +111,7 @@ public class Register {
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(from));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        message.addRecipient(Message.RecipientType.TO, n    ew InternetAddress(to));
         message.setSubject("Verification code for the catalog app");
         message.setText("The following is the verification code:" + code + "\n\nUse it in order to activate your account.");
         Transport.send(message, from, pass);
