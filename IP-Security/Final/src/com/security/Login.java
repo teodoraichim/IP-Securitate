@@ -9,6 +9,12 @@ public class Login {
     private HelpFunctions funct = new HelpFunctions();
     private SQL_func db = new SQL_func("/home/silviu/JavaProjects/BD_Gestiunea");
 
+    /**
+     * Functia verifica ca username-ul si parola introduse de catre utilizator sa respecte pattern-ul de logare
+     * @param username Parametrul reprezinta username-ul plain-text introdus de utilizator
+     * @param pass Parametrul reprezinta username-ul plain-text introdus de utilizator
+     * @return Returneaza true daca patternul este respectat, false altfel
+     */
     public boolean login(String username, String pass) {
         if (username == null || pass == null || username.isEmpty() || pass.isEmpty()) return false;
         if (verify.verifyAplhaNumeric(username)) {
