@@ -370,4 +370,46 @@ public class SQL_func {
         }
         return true;
     }
+    public String getAccessLevel(String username)
+    {
+        String result="None";
+        String query="select tip_utilizator from utilizatori where username=? and verificare=1";
+        try ( Connection conn =this.connect();
+              PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1,username);
+            ResultSet rs=pstmt.executeQuery();
+            while(rs.next())
+            {
+                result=rs.getString("tip_utilizator");
+            }
+            System.out.println("Succes!");
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    public void addSession(String username,int session_id,String last_activity)
+    {
+
+    }
+    public int countSession(int session_id)
+    {
+        return 1;
+    }
+    public String getUsername(int session_id)
+    {
+        return "Placeholder";
+    }
+    public void deleteSession(int session_id)
+    {
+
+    }
+    public  void updateSessionActivity(int session_id,String new_time)
+    {
+
+    }
+
+
+
 }

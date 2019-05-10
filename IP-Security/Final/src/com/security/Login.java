@@ -22,7 +22,7 @@ public class Login {
         if (username == null || pass == null || username.isEmpty() || pass.isEmpty()) return false;
         if (verify.verifyAplhaNumeric(username)) {
             if (db.countUsersByName(username) != 0) {
-                String salt = db.getSalt(username); //comented to test
+                String salt = db.getSalt(username);
 //        	byte[] salt = {(byte)0x10};//made for test
 //        	String hash= funct.encrypt(pass, salt);//made for test
                 System.out.println("salt din db:"+salt+":"+salt.length());

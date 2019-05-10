@@ -2,8 +2,6 @@ package com.security;
 
 import com.database.SQL_func;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Properties;
 
@@ -116,7 +114,7 @@ public class Register {
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(from));
-        message.addRecipient(Message.RecipientType.TO, n    ew InternetAddress(to));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
         message.setSubject("Verification code for the catalog app");
         message.setText("The following is the verification code:" + code + "\n\nUse it in order to activate your account.");
         Transport.send(message, from, pass);
