@@ -4,13 +4,23 @@ package com.security;
 
 import com.database.SQL_func;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Clasa contine functii ce verifica corectitudinea datelor introduse de utilizator la login(respectand un anumit pattern matching)
  */
 public class Login {
     private Verify verify = new Verify();
     private HelpFunctions funct = new HelpFunctions();
-    private SQL_func db = new SQL_func("C:\\Users\\T\\IP-Securitate\\IP-Security\\Final\\BD_Gestiunea");
+    private SQL_func db = new SQL_func("/home/silviu/JavaProjects/securitate_new2/IP-Securitate/IP-Security/Final/BD_Gestiunea");
 
     /**
      * Functia verifica ca username-ul si parola introduse de catre utilizator sa respecte pattern-ul de logare
@@ -43,6 +53,15 @@ public class Login {
         }
         return false;
     }
+
+    public Date stringToDate(String stringDate){
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(stringDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public String currentTime() { //conversia date->string
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String format;
@@ -57,41 +76,29 @@ public class Login {
             return "error" + e;
         }
     }
-    public long hoursPassedSince(Date lastActivity){
-            Date current=new Date();
-            long diffMiliseconds=Math.abs(currrent.getTime()-lastActivity.getTime());
-            long diffHours = TimeUnit.HOURS.convert(diffMiliseconds, TimeUnit.MILLISECONDS);
-            return diffHours;
-        }
-    public Date stringToDate(String stringDate){
-        try {
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(stringDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     public String createSession(String usernameParam){
-        byte[] hashedSessionId;
-        try {
-
-            KeySpec spec = new PBEKeySpec(usernameParam.toCharArray(), db.getSalt(usernameParam).getBytes(), 65536, 128);
+            String hash;
             do{
-                SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-                hashedSessionId = factory.generateSecret(spec).getEncoded();
-            }while(db.countSession(hashedSessionId)!=0);
-            db.addSession(usernameParam,hashedSessionId,currentTime());
-            return new String(hashedSessionId);
+                byte[] salt;
+                String salt_string;
+                salt_string=funct.generateRandomString(16);
+                salt=salt_string.getBytes();
+                 hash = funct.encrypt(usernameParam, salt);
+            }while(db.countSession(hash)!=0);
 
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-        return "0";
+            db.addSession(usernameParam,hash,currentTime());
+            return hash;
 
+
+    }
+    public long hoursPassedSince(Date lastActivity){
+        Date current=new Date();
+        long diffMiliseconds=Math.abs(current.getTime()-lastActivity.getTime());
+        long diffHours = TimeUnit.HOURS.convert(diffMiliseconds, TimeUnit.MILLISECONDS);
+        return diffHours;
     }
     public boolean checkSession(String hashedSessionIdParam){
+
             if(db.countSession(hashedSessionIdParam)!=0){
                 if(hoursPassedSince(stringToDate(db.getTime(hashedSessionIdParam)))<2){
                     SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd HH:mm");
