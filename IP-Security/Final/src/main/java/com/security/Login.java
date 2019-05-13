@@ -59,8 +59,8 @@ public class Login {
     }
     public long hoursPassedSince(Date lastActivity){
             Date current=new Date();
-            long diffMiliseconds=Math.abs(cur.getTime()-date.getTime());
-            long diffHours = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
+            long diffMiliseconds=Math.abs(currrent.getTime()-lastActivity.getTime());
+            long diffHours = TimeUnit.HOURS.convert(diffMiliseconds, TimeUnit.MILLISECONDS);
             return diffHours;
         }
     public Date stringToDate(String stringDate){
