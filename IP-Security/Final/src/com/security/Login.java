@@ -5,7 +5,7 @@ package com.security;
 import com.database.SQL_func;
 
 /**
- * Clasa contien functii ce verifica corectitudinea datelor introduse de utilizator la login(respectand un anumit pattern matching)
+ * Clasa contine functii ce verifica corectitudinea datelor introduse de utilizator la login(respectand un anumit pattern matching)
  */
 public class Login {
     private Verify verify = new Verify();
