@@ -1,22 +1,26 @@
+package com.security;
+
+import com.database.SQL_func;
+
 public class Access {
-    public sql_func funct=new sql_func();
-    public boolean isStudent(){
-        return funct.getAccessLevel()=="Student";
+    public SQL_func funct=new SQL_func("C:\\Users\\T\\IP-Securitate\\IP-Security\\Final\\BD_Gestiunea");
+    public boolean isStudent(String username){
+        return funct.getAccessLevel(username).equals("Student");
 
 
     }
-    public boolean isProfesor(){
-        return funct.getAccessLevel()=="Profesor";
+    public boolean isProfesor(String username){
+        return funct.getAccessLevel(username).equals("Profesor");
 
 
     }
-    public boolean isSecretar(){
-        return funct.getAccessLevel()=="Secretar";
+    public boolean isSecretar(String username){
+        return funct.getAccessLevel(username).equals("Secretar");
 
 
     }
-    public boolean isAdministrator(){
-        return funct.getAccessLevel()=="Administrator";
+    public boolean isAdministrator(String username){
+        return funct.getAccessLevel(username).equals("Administrator");
 
     }
 
