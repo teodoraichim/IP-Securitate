@@ -43,8 +43,8 @@ public class Login {
         }
         return false;
     }
-    public String currentTime(){ //conversia date->string
-        SimpleDateFormat sd =new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public String currentTime() { //conversia date->string
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String format;
         Date date;
         Date current;
@@ -53,16 +53,17 @@ public class Login {
             current = new Date();
             format = sd.format(current);
             return format;
-        }catch(Exception e){
+        } catch (Exception e) {
             return "error" + e;
         }
+    }
     public long hoursPassedSince(Date lastActivity){
             Date current=new Date();
             long diffMiliseconds=Math.abs(cur.getTime()-date.getTime());
             long diffHours = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
             return diffHours;
         }
-    public static Date stringToDate(String stringDate){
+    public Date stringToDate(String stringDate){
         try {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(stringDate);
         } catch (ParseException e) {
@@ -70,7 +71,7 @@ public class Login {
         }
         return null;
     }
-    public createSession(String usernameParam){
+    public void createSession(String usernameParam){
         byte[] hashedSessionId;
         try {
 
@@ -88,10 +89,9 @@ public class Login {
             e.printStackTrace();
         }
 
-        return "0";
     }
     public boolean checkSession(String hashedSessionIdParam){
-            if(db.countSession(hashedSessionIdParam!=0)){
+            if(db.countSession(hashedSessionIdParam)!=0){
                 if(hoursPassedSince(stringToDate(db.getTime(hashedSessionIdParam)))<2){
                     SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     Date currentDate=new Date();
@@ -103,7 +103,7 @@ public class Login {
                     db.deleteSession(hashedSessionIdParam);
                     return false;
                 }
-            }else return false
+            }else return false;
     }
 
 }
