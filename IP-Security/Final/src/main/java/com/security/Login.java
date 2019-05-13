@@ -71,7 +71,7 @@ public class Login {
         }
         return null;
     }
-    public void createSession(String usernameParam){
+    public String createSession(String usernameParam){
         byte[] hashedSessionId;
         try {
 
@@ -81,13 +81,14 @@ public class Login {
                 hashedSessionId = factory.generateSecret(spec).getEncoded();
             }while(db.countSession(hashedSessionId)!=0);
             db.addSession(usernameParam,hashedSessionId,currentTime());
-            //return new String(hashedSessionId);
+            return new String(hashedSessionId);
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (InvalidKeySpecException e) {
             e.printStackTrace();
         }
+        return "0";
 
     }
     public boolean checkSession(String hashedSessionIdParam){

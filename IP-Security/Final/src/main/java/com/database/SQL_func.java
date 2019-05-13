@@ -1,3 +1,4 @@
+package com.database;
 import java.sql.*;
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public class SQL_func {
      * Constructor cu rol de plasare a path-ului
      * @param path Un String cu path-ul bazei de date
      */
-    SQL_func(String path)
+    public SQL_func(String path)
     {
         way=path;
     }
@@ -617,7 +618,7 @@ public class SQL_func {
         return saltStr;
 
     }
-    String selectCriterii(String id){
+    public String selectCriterii(String id){
         String result = "";
         String query = " Select criteriiPromovare from profesori where id_materie=";
         query+=id;
@@ -631,7 +632,7 @@ public class SQL_func {
         }
         return result;
     }
-    void updateCriterii(String id_m, String criterii){
+    public void updateCriterii(String id_m, String criterii){
         String query="Update profesori set criteriiPromovare = ? where id_materie = ?";
         try ( Connection conn =this.connect();
               PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -644,7 +645,7 @@ public class SQL_func {
             System.out.println(e.getMessage());
         }
     }
-    void updatePromovare(String promovare,String id_s,String id_m){
+    public void updatePromovare(String promovare,String id_s,String id_m){
         String query = "Update materii set situatiePromovare= ? where id_student= ? and id_materie= ?";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -658,7 +659,7 @@ public class SQL_func {
             System.out.println(e.getMessage());
         }
     }
-    void addSession(String username,String session_id,String last_activity)
+    public void addSession(String username,String session_id,String last_activity)
     {
         String query = "Insert into sessions(session_id,username,last_activity) VALUES (?,?,?)";
         try (Connection conn = this.connect();
@@ -671,7 +672,7 @@ public class SQL_func {
             System.out.println(e.getMessage());
         }
     }
-    void deleteSession(String session_id)
+    public void deleteSession(String session_id)
     {
         String query = "DELETE FROM sessions WHERE session_id = ?";
 
@@ -698,7 +699,7 @@ public class SQL_func {
         }
         return result;
     }
-    String getTime(String s_id)
+    public String getTime(String s_id)
     {
         String result = "";
         String query = " Select last_activity from sessions where session_id=";
@@ -714,7 +715,7 @@ public class SQL_func {
         }
         return result;
     }
-    String getUsername(String s_id)
+    public String getUsername(String s_id)
     {
         String result = "";
         String query = " Select username from sessions where session_id=";
@@ -730,7 +731,7 @@ public class SQL_func {
         }
         return result;
     }
-    void updateSessionActivity(String s_id,String new_time)
+    public void updateSessionActivity(String s_id,String new_time)
     {
         String query = "Update sessions set last_activity= ? where session_id=?";
         try (Connection conn = this.connect();
