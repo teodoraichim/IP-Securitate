@@ -291,7 +291,7 @@ public class SQL_func {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                result+= rs.getString("salt_parola")  + " | ";
+                result+= rs.getString("salt_parola");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -662,6 +662,8 @@ public class SQL_func {
     public void addSession(String username,String session_id,String last_activity)
     {
         String query = "Insert into sessions(session_id,username,last_activity) VALUES (?,?,?)";
+        System.out.println("session:"+session_id);
+        System.out.println("last:"+last_activity);
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, session_id);

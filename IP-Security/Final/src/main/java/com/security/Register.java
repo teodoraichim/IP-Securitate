@@ -2,6 +2,8 @@ package com.security;
 
 import com.database.SQL_func;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Properties;
 
@@ -13,16 +15,11 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/**
- * Clasa folosita pentru inregistrarea in sistem a utilizatorilor noi
- * contine functii de verificare pentru username,parola,email, functii de asociere intre username si valori hash, si functii de trimitere de email
- * --pattern matching--
- */
 public class Register {
     private Verify verify = new Verify();
     private HelpFunctions funct = new HelpFunctions();
 
-    private SQL_func db = new SQL_func("C:\\Users\\T\\IP-Securitate\\IP-Security\\Final\\BD_Gestiunea");
+    private SQL_func db = new SQL_func("/home/silviu/JavaProjects/securitate_new2/IP-Securitate/IP-Security/Final/BD_Gestiunea");
 
 //    public String generateAuthCode() {
 //        try {
@@ -50,33 +47,33 @@ public class Register {
      */
     public boolean register(String username, String mail, String pass) throws AddressException, MessagingException {
         if (username == null || mail == null || pass == null || username.isEmpty() || mail.isEmpty() || pass.isEmpty()) return false;
-            if (verify.verifyMail(mail))
-                if (verify.verifyAplhaNumeric(username)) {
-                    SecureRandom random = new SecureRandom();
-                    byte[] salt = new byte[16];
-                    String salt_string;
-                    salt_string=funct.generateRandomString(16);
-                    System.out.println("salt register:"+salt_string+":"+salt_string.length());
-                    salt=salt_string.getBytes();
-                    String hash = funct.encrypt(pass, salt);
-                    if (db.countUsersByName(username) != 0) {
-                        System.out.println("Username already taken.");
-                    } else {
-                        if (db.countUsersByMail(mail) != 0) {
-                            System.out.println("Mail was already used.");
-                        } else {
-                            String auth = funct.generateAuthCode();
-                            db.addNewUser(username, mail,hash,salt_string,auth);
-                            sendEmail(mail, auth);
-                            return true;
-                        }
-                    }
-                } else
-                    System.out.println("Invalid username:must be alphanumeric");
-            else {
-                System.out.println("Invalid email:must be nume.prenume@info.uaic.ro");
+        if (verify.verifyMail(mail))
+            if (verify.verifyAplhaNumeric(username)) {
+                SecureRandom random = new SecureRandom();
+                byte[] salt = new byte[16];
+                String salt_string;
+                salt_string=funct.generateRandomString(16);
+//                System.out.println("salt register:"+salt_string+":"+salt_string.length());
 
-            }
+                String hash = funct.encrypt(pass, salt_string.getBytes());
+                if (db.countUsersByName(username) != 0) {
+                    System.out.println("Username already taken.");
+                } else {
+                    if (db.countUsersByMail(mail) != 0) {
+                        System.out.println("Mail was already used.");
+                    } else {
+                        String auth = funct.generateAuthCode();
+                        db.addNewUser(username, mail,hash,salt_string,auth);
+                        //sendEmail(mail, auth);
+                        return true;
+                    }
+                }
+            } else
+                System.out.println("Invalid username:must be alphanumeric");
+        else {
+            System.out.println("Invalid email:must be nume.prenume@info.uaic.ro");
+
+        }
         return false;
     }
 

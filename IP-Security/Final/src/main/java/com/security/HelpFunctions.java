@@ -6,9 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-/**
-* Clasa contine functii ajutatoare pentru criptare: generare de valori hash, folosind un salt si algoritmul PBKDF2
-*/
+
 public class HelpFunctions {
     /**
      * Functie care returneaza o valoare hash prin utilizrea algoritmului MD5
@@ -80,7 +78,7 @@ public class HelpFunctions {
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             hashedPassword = factory.generateSecret(spec).getEncoded();
-            return new String(hashedPassword);
+            return byteToString(hashedPassword);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (InvalidKeySpecException e) {

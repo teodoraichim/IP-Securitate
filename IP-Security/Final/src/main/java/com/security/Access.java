@@ -3,7 +3,7 @@ package com.security;
 import com.database.SQL_func;
 
 public class Access {
-    public SQL_func funct=new SQL_func("C:\\Users\\T\\IP-Securitate\\IP-Security\\Final\\BD_Gestiunea");
+    public SQL_func funct=new SQL_func("/home/silviu/JavaProjects/securitate_new2/IP-Securitate/IP-Security/Final/BD_Gestiunea");
     public boolean isStudent(String username){
         return funct.getAccessLevel(username).equals("Student");
 
