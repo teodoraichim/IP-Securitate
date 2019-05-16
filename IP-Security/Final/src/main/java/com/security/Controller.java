@@ -1,6 +1,9 @@
 package com.security;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -11,30 +14,66 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class Controller {
 
-    private static final String template = "Hello, %s!";
-    //    private final AtomicLong counter = new AtomicLong();
-//
     @RequestMapping(value="/login",method=POST)
-    public String login(@RequestParam(value="username") String name,@RequestParam(value="password") String pass,@RequestHeader("Authorization") String auth) {
+    ResponseEntity<String> login(@RequestParam(value="username") String name, @RequestParam(value="password") String pass) {
         User user=new User(name,pass,"");
-        System.out.println("-"+name+"-"+pass+"-");
-        if(user.login()) return user.createSession();
-        return "false";
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+
+        if(user.login())
+        {
+            String json="{"+"\"success\":true,\"session_id\":\""+user.createSession()+"\"}";
+            return ResponseEntity.status(HttpStatus.OK).headers(headers).body(json);
+
+        }
+        else
+        {
+            String json="{"+"\"success\":false,\"message\":\""+user.getLoginError()+"\"}";
+            return ResponseEntity.badRequest().headers(headers).body(json);
+        }
     }
     @RequestMapping(value="/register",method=POST)
-    public boolean register(@RequestParam(value="username") String name,@RequestParam(value="password") String pass,@RequestParam(value="mail")String mail) {
-        User user=new User(String.format(template,name),String.format(template,pass),"");
+    ResponseEntity<String> register(@RequestParam(value="username") String name,@RequestParam(value="password") String pass,@RequestParam(value="mail")String mail) {
+        User user=new User(name,pass,mail);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+
         try {
-            return user.register();
+            if(user.register())
+            {
+                String json="{"+"\"success\":true,\"message\":"+"\"Use the activation code sent to the university email in order to activate your account and be able to login.\""+"}";
+                return ResponseEntity.status(HttpStatus.OK).headers(headers).body(json);
+            }
+            else
+            {
+                String json="{"+"\"success\":false,\"message\":\""+user.getRegisterError()+"\"}";
+                return ResponseEntity.badRequest().headers(headers).body(json);
+            }
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-        return false;
+        String json="{"+"\"success\":false,\"message\":\""+user.getRegisterError()+"\"}";
+        return ResponseEntity.badRequest().headers(headers).body(json);
+
+
     }
     @RequestMapping(value="/activate",method=POST)
-    public boolean activate(@RequestParam(value="username") String name,@RequestParam(value="password") String pass,@RequestParam(value="code") String code) {
-        User user=new User(String.format(template,name),String.format(template,pass),"");
-        return user.activate(code);
+    ResponseEntity<String> activate(@RequestParam(value="username") String name,@RequestParam(value="password") String pass,@RequestParam(value="code") String code) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+
+        User user=new User(name,pass,"");
+        if(user.activate(code))
+        {
+            String json="{"+"\"success\":true,\"session_id\":\""+user.createSession()+"\"}";
+            return ResponseEntity.status(HttpStatus.OK).headers(headers).body(json);
+        }
+        else
+        {
+            String json="{"+"\"success\":false,\"message\":\"Invalid code\"}";
+            return ResponseEntity.badRequest().headers(headers).body(json);
+
+        }
     }
 
 

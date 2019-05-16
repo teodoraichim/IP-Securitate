@@ -27,6 +27,14 @@ public class User {
     {
         return userLogin.login(username,pass);
     }
+    public String getLoginError()
+    {
+        return userLogin.getError();
+    }
+    public String getRegisterError()
+    {
+        return userRegister.getError();
+    }
     /**
      * Functia apeleaza functia de register din clasa Register (pentru a testa inregistrarea in sistem a unui utilizator )
      *@return Returneaza true daca inregistraera s-a realizat cu succes, false altfel

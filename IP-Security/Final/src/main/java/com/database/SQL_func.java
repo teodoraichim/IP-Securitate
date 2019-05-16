@@ -690,7 +690,7 @@ public class SQL_func {
     public int countSession(String session_id)
     {
         int result = 0;
-        String query = "select username from sessions where session_id= " + session_id;
+        String query = "select username from sessions where session_id= \"" + session_id+"\"";
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -704,8 +704,7 @@ public class SQL_func {
     public String getTime(String s_id)
     {
         String result = "";
-        String query = " Select last_activity from sessions where session_id=";
-        query+=s_id;
+        String query = " Select last_activity from sessions where session_id=\""+s_id+"\"";
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -720,13 +719,41 @@ public class SQL_func {
     public String getUsername(String s_id)
     {
         String result = "";
-        String query = " Select username from sessions where session_id=";
-        query+=s_id;
+        String query = " Select username from sessions where session_id=\""+s_id+"\"";
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while(rs.next())
                 result+=(rs.getString("username") + "\t");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    public int countUserSession(String user)
+    {
+        int result = 0;
+        String query = "select session_id from sessions where username=\"" +user+"\"";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next())
+                result ++;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    public String getSession(String user)
+    {
+        String result = "";
+        String query = " Select session_id from sessions where username=\""+user+"\"";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while(rs.next())
+                result=rs.getString("session_id");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
