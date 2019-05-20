@@ -8,11 +8,23 @@ public class User {
     private String username;
     private String pass;
     private String mail;
+    private String accessLevel;
     private Login userLogin=new Login();
+    private int user_id;
     private Register userRegister=new Register();
+    private Access userAccess=new Access();
     /**
      * Constructorul clasei, (3 parametri)initializeaza datele membre ale clasei cu nume, parola si email
      */
+    public String getAccessLevel()
+    {
+        return this.accessLevel;
+    }
+
+    public int getUserID()
+    {
+        return this.user_id;
+    }
     public User(String name,String pass,String mail)
     {
         this.username=name;
@@ -25,7 +37,15 @@ public class User {
      */
     public boolean login()
     {
-        return userLogin.login(username,pass);
+        boolean ret=userLogin.login(username,pass);
+        if(ret) {
+            user_id = userLogin.getUserID();
+            if (userAccess.isAdministrator(username)) accessLevel = "Administrator";
+            else if (userAccess.isProfesor(username)) accessLevel = "Profesor";
+            else if (userAccess.isSecretar(username)) accessLevel = "Secretar";
+            else if (userAccess.isStudent(username)) accessLevel = "Student";
+        }
+        return ret;
     }
     public String getLoginError()
     {

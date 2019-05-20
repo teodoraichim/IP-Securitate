@@ -22,10 +22,14 @@ public class Login {
     private HelpFunctions funct = new HelpFunctions();
     private SQL_func db = new SQL_func("/home/silviu/JavaProjects/securitate_new2/IP-Securitate/IP-Security/Final/BD_Gestiunea");
     private String error;
+    private int userID=-1;
     private boolean isError = false;
 
     public String getError() {
         return this.error;
+    }
+    public int getUserID(){
+        return this.userID;
     }
 
     /**
@@ -52,8 +56,10 @@ public class Login {
                 String hash = funct.encrypt(pass, salt.getBytes());// comented to test
                 System.out.println(hash);
                 if (db.countUsersByUsernamePass(username, hash) != 0) {
-                    if (db.verificareLogIn(username))
+                    if (db.verificareLogIn(username)) {
+                        userID=db.getUserID(username);
                         return true;
+                    }
                     else {
                         error = "Account not activated.";
                         isError = true;

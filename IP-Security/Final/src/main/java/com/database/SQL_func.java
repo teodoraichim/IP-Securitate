@@ -745,6 +745,22 @@ public class SQL_func {
         }
         return result;
     }
+    public int getUserID(String user)
+    {
+        int result=-1;
+        String query="select id_utilizator from utilizatori where username=\""+user+"\"";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while(rs.next())
+                result=rs.getInt("id_utilizator");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+
+    }
     public String getSession(String user)
     {
         String result = "";

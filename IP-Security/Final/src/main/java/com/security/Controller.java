@@ -19,10 +19,10 @@ public class Controller {
         User user=new User(name,pass,"");
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
-
+        int user_id;
         if(user.login())
         {
-            String json="{"+"\"success\":true,\"session_id\":\""+user.createSession()+"\"}";
+            String json="{"+"\"success\":true,\"session_id\":\""+user.createSession()+"\",\"user_id\":"+user.getUserID()+", \"rol\":\""+user.getAccessLevel()+"\"}";
             return ResponseEntity.status(HttpStatus.OK).headers(headers).body(json);
 
         }

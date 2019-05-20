@@ -14,10 +14,11 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) throws MessagingException {
         User user1=new User("teodora.ichim","parola123","teodora.ichim@info.uaic.ro");
-       System.out.println(user1.register());
+//       System.out.println(user1.register());
 
-//        System.out.println(user1.login());
-
+        System.out.println(user1.login());
+        System.out.println(user1.getAccessLevel());
+        System.out.println(user1.getUserID());
 //        Access access=new Access();
 //        System.out.println("Profesor:"+access.isProfesor("Andrei"));
 ////        System.out.println("Student:"+access.isStudent("Andrei"));
