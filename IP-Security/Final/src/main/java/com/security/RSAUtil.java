@@ -151,37 +151,48 @@ public class RSAUtil {
         System.out.println("Public:" + publicKeyString);
         System.out.println("Private:" + privateKeyString);
     }
-
-    public static void main(String[] args) {
-        String text = "Hi man";
-
-//        byte[] cipherTextArray = RSAUtil.encrypt(plainText, publicKey);
-//        String encryptedText = Base64.getEncoder().encodeToString(cipherTextArray);
-        RSAUtil r = new RSAUtil();
-        // Decryption
-        String decryptedText = null;
+    public String decryptPassword(String pass)
+    {
         try {
-//            r.generate();
-            r.getPrivateKey();
-            r.getPublicKey();
-            String encryptedText=toHexString(r.encrypt(text));
-            System.out.println("Encrypted Text : " + encryptedText);
-
-            decryptedText = r.decrypt(fromHexString(encryptedText));
-            System.out.println("DeCrypted Text : " + decryptedText);
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
+            this.getPrivateKey();
+            String decrypt=this.decrypt(fromHexString(pass));
+            return decrypt;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "-1";
     }
+//
+//    public static void main(String[] args) {
+//        String text = "Hi man";
+//
+////        byte[] cipherTextArray = RSAUtil.encrypt(plainText, publicKey);
+////        String encryptedText = Base64.getEncoder().encodeToString(cipherTextArray);
+//        RSAUtil r = new RSAUtil();
+//        // Decryption
+//        String decryptedText = null;
+//        try {
+////            r.generate();
+//            r.getPrivateKey();
+//            r.getPublicKey();
+//            String encryptedText=toHexString(r.encrypt(text));
+//            System.out.println("Encrypted Text : " + encryptedText);
+//
+//            decryptedText = r.decrypt(fromHexString(encryptedText));
+//            System.out.println("DeCrypted Text : " + decryptedText);
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeyException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
